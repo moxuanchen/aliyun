@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import subprocess
 from flask_script import Manager
 from app import create_app
 from flask import request
@@ -21,6 +22,13 @@ def f_calc(num):
 def calc_start():
     data = request.args
     return "result: %s" % f_calc(int(data.get('value', 30000)))
+
+
+@app.route("/long")
+def long_task():
+    subprocess.Popen(["python", "/tmp/download.py"])
+    return "OK"
+
 
 if __name__ == "__main__":
     manager.run()
